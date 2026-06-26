@@ -4,7 +4,10 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-client = AsyncOpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+client = AsyncOpenAI(
+    api_key=os.getenv("GROQ_API_KEY"),
+    base_url="https://api.groq.com/openai/v1"
+)
 
 SYSTEM_PROMPT = """Ти — навчальний AI-асистент для студентів університету. 
 Твоя роль — допомагати студентам з навчальними питаннями: пояснювати теми, 
@@ -15,7 +18,7 @@ SYSTEM_PROMPT = """Ти — навчальний AI-асистент для ст
 async def ask_ai(question: str) -> str:
     try:
         response = await client.chat.completions.create(
-            model="gpt-4o-mini",
+            model="llama-3.3-70b-versatile",
             messages=[
                 {"role": "system", "content": SYSTEM_PROMPT},
                 {"role": "user", "content": question}
